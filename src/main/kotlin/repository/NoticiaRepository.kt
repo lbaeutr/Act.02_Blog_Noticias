@@ -52,4 +52,12 @@ class NoticiaRepository {
     fun existeNoticia(titulo: String): Boolean {
         return collection.countDocuments(eq("titulo", titulo)) > 0
     }
+
+
+    private fun getNoticiaByTitulo(titulo: String): Noticia? {
+        return collection.find(eq("titulo", titulo)).firstOrNull()
+    }
+
 }
+
+
