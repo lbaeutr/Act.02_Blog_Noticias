@@ -1,0 +1,110 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+
+
+' Definición de Clases
+class Cliente {
+  - email: String
+  - nombreCompleto: String
+  - username: String
+  - banned: Boolean
+  - activo: Boolean
+  - direccion: Direccion
+  - telefonos: List<String>
+}
+
+class Direccion {
+  - calle: String
+  - numero: String
+  - puerta: String
+  - codigoPostal: String
+  - ciudad: String
+}
+
+class Noticia {
+  - id: ObjectId?
+  - titulo: String
+  - cuerpo: String
+  - fechaPub: Date
+  - tag: List<String>
+  - user: String
+}
+
+class Comentario {
+  - id: ObjectId?
+  - tituloNoticia: String
+  - user: String
+  - texto: String
+  - fechaPub: Date
+}
+
+class ClienteRepository {
+  + registrarCliente()
+  + buscarClientePorEmail()
+  + esUsuarioActivo()
+}
+
+class NoticiaRepository {
+  + publicarNoticia()
+  + listarNoticiasPorUsuario()
+  + buscarNoticiasPorEtiqueta()
+  + listarUltimasNoticias()
+  + existeNoticia()
+}
+
+class ComentarioRepository {
+  + agregarComentario()
+  + listarComentariosPorNoticia()
+}
+
+class ClienteService {
+  + registrarUsuario()
+  + puedePublicarNoticias()
+  + puedeComentar()
+}
+
+class NoticiaService {
+  + publicarNoticia()
+  + listarNoticiasDeUsuario()
+  + buscarNoticiasPorEtiqueta()
+  + listarUltimasNoticias()
+}
+
+class ComentarioService {
+  + agregarComentario()
+  + listarComentariosPorNoticia()
+}
+
+class ConexionMongo {
+  + getDatabase()
+  + close()
+  + testConnection()
+}
+
+class dotenv {
+  + URL_MONGODB: String
+}
+
+' Relaciones entre clases
+Cliente --> Direccion : "Tiene una"
+Comentario ..> Noticia : "Comenta sobre"
+Noticia ..> Cliente : "Escrita por"
+
+ClienteRepository ..> Cliente : "Gestiona"
+NoticiaRepository ..> Noticia : "Gestiona"
+ComentarioRepository ..> Comentario : "Gestiona"
+
+ClienteRepository ..> ConexionMongo : "Accede a"
+NoticiaRepository ..> ConexionMongo : "Accede a"
+ComentarioRepository ..> ConexionMongo : "Accede a"
+
+ClienteService ..> ClienteRepository : "Usa"
+NoticiaService ..> NoticiaRepository : "Usa"
+ComentarioService ..> ComentarioRepository : "Usa"
+NoticiaService ..> ClienteRepository : "Valida usuario"
+ComentarioService ..> ClienteRepository : "Valida usuario"
+ComentarioService ..> NoticiaRepository : "Valida noticia"
+
+ConexionMongo ..> dotenv : "Carga configuración"
+@enduml

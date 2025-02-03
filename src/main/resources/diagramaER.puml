@@ -1,0 +1,47 @@
+@startuml
+
+entity "Cliente" as Cliente {
+  * email : String [PK]
+  --
+  nombreCompleto : String
+  username : String
+  banned : Boolean
+  activo : Boolean
+  direccion_id : String [FK]
+}
+
+entity "Direccion" as Direccion {
+  * id : String [PK]
+  --
+  calle : String
+  numero : String
+  puerta : String
+  codigoPostal : String
+  ciudad : String
+}
+
+entity "Noticia" as Noticia {
+  * id : ObjectId [PK]
+  --
+  titulo : String
+  cuerpo : String
+  fechaPub : Date
+  tag : List<String>
+  user_email : String [FK]
+}
+
+entity "Comentario" as Comentario {
+  * id : ObjectId [PK]
+  --
+  tituloNoticia : String
+  user_email : String [FK]
+  texto : String
+  fechaPub : Date
+}
+
+' Relaciones entre entidades
+Cliente ||--|| Direccion : "Tiene una"
+Cliente ||--o{ Noticia : "Publica"
+Noticia ||--o{ Comentario : "Recibe"
+Comentario }|..|| Cliente : "Escrito por"
+@enduml
