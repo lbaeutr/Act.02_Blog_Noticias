@@ -18,7 +18,7 @@ Este proyecto es una aplicación básica de un blog de noticias desarrollado en 
 - Obtener comentarios de una noticia específica.
 
 ## 📌 Tecnologías Utilizadas
-- 🔹 Lenguaje: Kotlin
-- 🔹 Base de Datos: MongoDB
-- 🔹 Gestión de Dependencias: Gradle
-- 🔹 Variables de Entorno: dotenv-kotlin
+- Lenguaje: Kotlin
+- Base de Datos: MongoDB
+- Gestión de Dependencias: Gradle
+- Variables de Entorno: dotenv-kotlin
